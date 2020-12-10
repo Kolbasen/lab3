@@ -5,15 +5,14 @@ package main
 import (
 	"github.com/Kolbasen/lab3/server/api/dishes"
 	"github.com/google/wire"
-	"github.com/gorilla/mux"
 )
 
-func ComposeApiServer() (*mux.Router, error) {
+func ComposeApiServer(port int) (*APIServer, error) {
 	wire.Build(
 		// DB connection provider (defined in main.go).
 		// NewDbConnection,
 		dishes.Providers,
-		// wire.Struct(new(ChatApiServer), "Port", "ChannelsHandler"),
+		wire.Struct(new(APIServer), "Port", "router"),
 	)
 	return nil, nil
 }

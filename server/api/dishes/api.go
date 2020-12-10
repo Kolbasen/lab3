@@ -8,8 +8,10 @@ import (
 )
 
 // AddDishesRoutes - add routes
-func AddDishesRoutes(router *mux.Router) {
+func AddDishesRoutes() *mux.Router {
+	router := mux.NewRouter()
 	router.HandleFunc("/dishes/list", handleListDishes).Methods(http.MethodGet)
+	return router
 }
 
 func handleListDishes(w http.ResponseWriter, r *http.Request) {

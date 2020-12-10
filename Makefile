@@ -3,7 +3,7 @@ PID_FILE = /tmp/labs.pid
 
 start:
 	@echo "Starting..."
-	go run server/cmd/server/server.go & echo $$! > $(PID_FILE)
+	go run server/cmd/server & echo $$! > $(PID_FILE)
 
 stop:
 	@pkill -P `cat $(PID_FILE)` || true
