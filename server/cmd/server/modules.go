@@ -9,8 +9,7 @@ import (
 
 func ComposeApiServer(port int) (*APIServer, error) {
 	wire.Build(
-		// DB connection provider (defined in main.go).
-		// NewDbConnection,
+		NewDbConnection,
 		dishes.Providers,
 		wire.Struct(new(APIServer), "Port", "router"),
 	)

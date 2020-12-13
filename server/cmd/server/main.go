@@ -13,8 +13,8 @@ import (
 
 func NewDbConnection() (*sql.DB, error) {
 	conn := &db.Connection{
-		DbName:     "chat-example",
-		User:       "roman",
+		DbName:     "lab3",
+		User:       "andrewboyko",
 		Host:       "localhost",
 		DisableSSL: true,
 	}
