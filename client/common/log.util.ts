@@ -5,5 +5,5 @@ export const printDishesList = (menu: Dish[]) => {
 }
 
 export const printBill = (bill: Bill) => {
-    console.log(`Bill was successfully created: ${bill}`);
+    console.log(`Bill was successfully created:\nYour bill ${bill.total_price_no_tax}\nRecommended tips are ${bill.recommended_tips}`);
 }

@@ -6,16 +6,19 @@ import (
 	"strings"
 )
 
+// Dish - model for dish
 type Dish struct {
 	ID    int64  `json:"id"`
 	Name  string `json:"name"`
 	Price int64  `json:"price"`
 }
 
+// Store - application store struct
 type Store struct {
 	Db *sql.DB
 }
 
+// NewStore - creates application store connected to db
 func NewStore(db *sql.DB) *Store {
 	return &Store{Db: db}
 }

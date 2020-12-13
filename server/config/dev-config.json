@@ -1,0 +1,12 @@
+{
+    "db": {
+        "db_name": "lab3",
+		"user": "andrewboyko",
+		"host": "localhost",
+		"disable_ssl": true
+    },
+    "application": {
+        "no_tax_percent": 0.8,
+        "recommended_tips": 0.15
+    }
+}

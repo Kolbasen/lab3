@@ -8,15 +8,17 @@ import (
 	"os"
 	"os/signal"
 
+	"github.com/Kolbasen/lab3/server/config"
 	"github.com/Kolbasen/lab3/server/db"
 )
 
-func NewDbConnection() (*sql.DB, error) {
+// NewDbConnection - func to establish DB connection
+func NewDbConnection(config *config.Config) (*sql.DB, error) {
 	conn := &db.Connection{
-		DbName:     "lab3",
-		User:       "andrewboyko",
-		Host:       "localhost",
-		DisableSSL: true,
+		DbName:     config.Db.DbName,
+		User:       config.Db.User,
+		Host:       config.Db.Host,
+		DisableSSL: config.Db.DisableSSL,
 	}
 	return conn.Open()
 }
@@ -24,7 +26,7 @@ func NewDbConnection() (*sql.DB, error) {
 func main() {
 	flag.Parse()
 
-	if server, err := ComposeApiServer(8080); err == nil {
+	if server, err := ComposeApiServer(8080, "./config/dev-config.json"); err == nil {
 
 		go func() {
 			log.Println("Starting chat server...")

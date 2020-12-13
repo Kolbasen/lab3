@@ -4,27 +4,26 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/Kolbasen/lab3/server/config"
 	"github.com/Kolbasen/lab3/server/tools"
 	"github.com/gorilla/mux"
 )
 
-type DishesRouter = *mux.Router
-
+// DishHandlers - strutct for dish API
 type DishHandlers struct {
-	store *Store
+	store  *Store
+	config *config.Config
 }
 
-// AddDishesRoutes - add routes
-func AddDishesRoutes(store *Store) *mux.Router {
+// AddDishesRoutes - add routes for dishes endpoint
+func AddDishesRoutes(store *Store, config *config.Config, router *mux.Router) {
 	dishHandlers := &DishHandlers{
-		store: store,
+		store:  store,
+		config: config,
 	}
-
-	router := mux.NewRouter()
 
 	router.HandleFunc("/dishes/list", dishHandlers.handleListDishes).Methods(http.MethodGet)
 	router.HandleFunc("/dishes/order/create", dishHandlers.handleDishesOrderCreate).Methods(http.MethodPost)
-	return router
 }
 
 func (d *DishHandlers) handleListDishes(w http.ResponseWriter, r *http.Request) {
@@ -37,11 +36,13 @@ func (d *DishHandlers) handleListDishes(w http.ResponseWriter, r *http.Request) 
 	tools.JSON(w, http.StatusOK, res)
 }
 
+// OrderCreateRequestPayload - body in request
 type OrderCreateRequestPayload struct {
 	TableID int64   `json:"table_id"`
 	DishIDS []int64 `json:"dish_ids"`
 }
 
+// OrderCreateResponse - response type
 type OrderCreateResponse struct {
 	TableID         int64   `json:"table_id"`
 	TotalPrice      int64   `json:"total_price"`
@@ -67,8 +68,8 @@ func (d *DishHandlers) handleDishesOrderCreate(w http.ResponseWriter, r *http.Re
 		tools.ERROR(w, http.StatusInternalServerError, err)
 	}
 
-	totalPriceNoTax := float64(totalPrice) * 0.8
-	recommendedTips := totalPriceNoTax * 0.15
+	totalPriceNoTax := float64(totalPrice) * d.config.App.TaxPercent
+	recommendedTips := totalPriceNoTax * d.config.App.RecommendedTips
 
 	response := &OrderCreateResponse{
 		TableID:         requesPayload.TableID,
